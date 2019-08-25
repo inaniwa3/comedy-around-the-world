@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>comedy around the world</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta charset="utf-8">
+  </head>
+  <body style="margin: 0; padding: 0;">
+    <script src="js/d3.min.js"></script>
+    <script src="js/topojson.min.js"></script>
+    <script src="js/datamaps.world.hires.min.js"></script>
+    <div id="container" style="text-align: center;"></div>
+    <script>
+      let q = location.href.split("?")[1]
+      if (typeof q === "undefined") q = 'comedy';
+      document.title = q + ' around the world';
+      new Datamap({
+        element: document.getElementById('container'),
+        projection: 'mercator',
+        height: 420,
+        width: 700,
+        done: function(datamap) {
+          datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
+            window.open('https://www.youtube.com/results?search_query=' + geography.properties.name + '+' + q, '_blank');
+          });
+        },
+        geographyConfig: {
+          borderWidth: 0.2,
+          popupTemplate: function(geography, data) {
+            return '<div class="hoverinfo" style="padding: 2px; font-size: 6px;">' + geography.properties.name + '</div>';
+          },
+          highlightBorderWidth: 0.4
+        }
+      });
+    </script>
+  </body>
+</html>
